@@ -7,7 +7,7 @@ namespace PageObjectPattern;
 
 public class TestConfig
 {
-    private IPage Page = null!;
+    protected IPage Page = null!;
     private string _appURL { get; set; } = null!;
     private string _username { get; set; } = null!;
     private string _password { get; set; } = null!;
@@ -21,7 +21,7 @@ public class TestConfig
         .Build();
     
     [SetUp]
-    public async Task SetUpBrowserContext()
+    public async Task SetUp_BrowserContext()
     {
         var playwright = await Playwright.CreateAsync();
         var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
@@ -33,14 +33,14 @@ public class TestConfig
     }
     
     [SetUp]
-    public void SetUpAppsettingsContext()
+    public void SetUp_AppsettingsContext()
     {
         _appURL = _configuration["AppURL"]!;
         _username = _configuration["Credentials:Username"]!;
         _password = _configuration["Credentials:Password"]!;
     }
 
-    protected async Task LogInToApplication()
+    protected async Task LogIn_ToApplication()
     {
         await Page.GotoAsync(_appURL);
         await _usernameLoginTextField.FillAsync(_username);
